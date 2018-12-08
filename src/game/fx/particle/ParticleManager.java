@@ -9,6 +9,7 @@ public class ParticleManager {
 	
 	private ArrayList<Particle>particlesToRemove;
 	private ArrayList<Particle>particles;
+	@SuppressWarnings("unused")
 	private Handler handler;
 	
 	ParticleManager(Handler handler){
@@ -31,6 +32,14 @@ public class ParticleManager {
 		for(Particle p:particles) {
 			p.render(g);
 		}
+	}
+	
+	public void addParticle(Particle p) {
+		particles.add(p);
+	}
+	
+	public void removeParticle(Particle p) {
+		particles.remove(p);
 	}
 	
 }

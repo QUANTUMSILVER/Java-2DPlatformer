@@ -1,5 +1,6 @@
 package game.utils;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,5 +38,9 @@ public class Utils {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+	public static Color Color(int r, int g, int b, int a) {
+		Color c = new Color(r, g, b, a);
+		return c;
 	}
 }
