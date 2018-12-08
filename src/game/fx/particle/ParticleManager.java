@@ -9,11 +9,8 @@ public class ParticleManager {
 	
 	private ArrayList<Particle>particlesToRemove;
 	private ArrayList<Particle>particles;
-	@SuppressWarnings("unused")
-	private Handler handler;
 	
-	ParticleManager(Handler handler){
-		this.handler = handler;
+	public ParticleManager(){
 		particlesToRemove = new ArrayList<Particle>();
 		particles = new ArrayList<Particle>();
 	}

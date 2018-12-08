@@ -10,18 +10,19 @@ public class Particle {
 	
 	@SuppressWarnings("unused")
 	private Color c;
-	private float x, y;
+	private float x, y, radius;
 	private int life, peak;
 	@SuppressWarnings("unused")
 	private Handler handler;
 	
 	private Glow glow;
 	
-	public Particle(Handler handler, Color c, float x, float y, int life) {
+	public Particle(Handler handler, Color c, float x, float y,  float radius, int life) {
 		this.handler = handler;
 		this.c = c;
 		this.x = x;
 		this.y = y;
+		this.radius = radius;
 		this.life = life;
 		this.peak = (int) life/2;
 		glow = new Glow(handler, c, (int) x,(int) y, 0);
@@ -30,7 +31,7 @@ public class Particle {
 	public void update() {
 		glow.setX(x);
 		glow.setY(y);
-		float radius = Math.abs(peak-life);
+		radius = Math.abs(peak-life)*radius/peak;
 		glow.setRadius(radius);
 		life--;
 		glow.update();
