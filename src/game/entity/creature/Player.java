@@ -71,7 +71,7 @@ public class Player extends Creature{
 			if(onGround) {
 				tempx -= maxForce;
 			}else {
-				tempx -= maxForce/10;
+				tempx -= maxForce/20;
 			}
 			moving = true;
 		}else if(pressRight) {
@@ -79,7 +79,7 @@ public class Player extends Creature{
 			if(onGround) {
 				tempx += maxForce;
 			}else {
-				tempx += maxForce/10;
+				tempx += maxForce/20;
 			}
 			moving = true;
 		}
