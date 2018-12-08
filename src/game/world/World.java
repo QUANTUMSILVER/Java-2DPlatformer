@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import game.Handler;
 import game.block.Block;
+import game.block.BlockManager;
 import game.block.GroundBlock;
 import game.entity.creature.Player;
 import game.utils.Utils;
@@ -13,28 +14,27 @@ public class World {
 	
 	private int width, height;
 	
-	private ArrayList<Block>blocks;
+	private BlockManager blockManager;
+	
 	private Player player;
 	private Handler handler;
 	
 	public World(Handler handler, String path) {
+		
+		blockManager = new BlockManager();
+		
 		this.handler = handler;
 		handler.setWorld(this);
-		blocks = new ArrayList<Block>();
 		loadWorld(path);
 	}
 	
 	public void update() {
-		for(Block b:blocks) {
-			b.update();
-		}
+		blockManager.update();
 		player.update();
 	}
 	
 	public void render(Graphics g) {
-		for(Block b:blocks) {
-			b.render(g);
-		}
+		blockManager.render(g);
 		player.render(g);
 	}
 	
@@ -46,7 +46,7 @@ public class World {
 		String[] blockData = parts[1].split("\\s+");
 		for(int i = 1;i < blockData.length-1;i+=4) {
 			Block b = new GroundBlock(handler, Utils.parseInt(blockData[i+0]), Utils.parseInt(blockData[i+1]), Utils.parseInt(blockData[i+2]), Utils.parseInt(blockData[i+3]));
-			blocks.add(b);
+			blockManager.addBlock(b);
 		}
 	}
 
@@ -67,11 +67,11 @@ public class World {
 	}
 
 	public ArrayList<Block> getBlocks() {
-		return blocks;
+		return blockManager.getBlocks();
 	}
 
 	public void setBlocks(ArrayList<Block> blocks) {
-		this.blocks = blocks;
+		this.blockManager.setBlocks(blocks);;
 	}
 	
 }
