@@ -16,6 +16,7 @@ import lib.Vector;
 public class World {
 	
 	private int width, height;
+	private float ppfpp;//particles per frame per pixel
 	
 	private BlockManager blockManager;
 	private ParticleManager particleManager;
@@ -47,10 +48,15 @@ public class World {
 	}
 	
 	private void addParticle() {
-		particleManager.addParticle(new ParticleGlow(handler, Utils.Color(0, 0, 0, 5), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), (int)(Math.random()*3+6), 300));
-		particleManager.addParticle(new ParticleGlow(handler, Utils.Color(0, 0, 0, 5), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), (int)(Math.random()*3+6), 300));
-		particleManager.addParticle(new ParticleGlow(handler, Utils.Color(0, 0, 0, 5), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), (int)(Math.random()*3+6), 300));
-		particleManager.addParticle(new ParticleGlow(handler, Utils.Color(0, 0, 0, 5), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), (int)(Math.random()*3+6), 300));
+		for(int i = 0;i < width*height*ppfpp;i++) {
+			if(i > width*height*ppfpp) {
+				if(Math.random() < i-width*height*ppfpp) {
+					particleManager.addParticle(new ParticleGlow(handler, Utils.Color(0, 0, 0, 5), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), (int)(Math.random()*3+6), 300));
+				}
+			}else {
+				particleManager.addParticle(new ParticleGlow(handler, Utils.Color(0, 0, 0, 5), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), (int)(Math.random()*3+6), 300));
+			}
+		}
 	}
 	
 	public void loadWorld(String path){
@@ -60,6 +66,8 @@ public class World {
 		player = new Player(handler, new Vector(Utils.parseInt(worldData[0]), Utils.parseInt(worldData[1])));
 		width = Utils.parseInt(worldData[2]);
 		height = Utils.parseInt(worldData[3]);
+		
+		ppfpp = (float)Utils.parseInt(worldData[4])/(float)Utils.parseInt(worldData[5]);;
 		
 		Block leftBorder = new GroundBlock(handler, new Vector(-handler.getWidth()/2,-handler.getHeight()/2), handler.getWidth()/2, handler.getHeight()+height);
 		blockManager.addBlock(leftBorder);
