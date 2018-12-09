@@ -8,6 +8,9 @@ import game.block.Block;
 import game.block.BlockManager;
 import game.block.GroundBlock;
 import game.entity.creature.Player;
+import game.entity.staticEntity.plant.Grass;
+import game.entity.staticEntity.StaticEntity;
+import game.entity.staticEntity.plant.StaticManager;
 import game.fx.particle.ParticleGlow;
 import game.fx.particle.ParticleManager;
 import game.utils.Utils;
@@ -19,6 +22,7 @@ public class World {
 	private float ppfpp;//particles per frame per pixel
 	
 	private BlockManager blockManager;
+	private StaticManager staticManager;
 	private ParticleManager particleManager;
 	
 	private Player player;
@@ -27,6 +31,7 @@ public class World {
 	public World(Handler handler, String path) {
 		
 		blockManager = new BlockManager();
+		staticManager = new StaticManager();
 		particleManager = new ParticleManager();
 		
 		this.handler = handler;
@@ -37,12 +42,14 @@ public class World {
 	public void update() {
 		addParticle();
 		particleManager.update();
+		staticManager.update();
 		blockManager.update();
 		player.update();
 	}
 	
 	public void render(Graphics g) {
 		particleManager.render(g);
+		staticManager.render(g);
 		blockManager.render(g);
 		player.render(g);
 	}
@@ -82,6 +89,11 @@ public class World {
 		for(int i = 1;i < blockData.length-1;i+=4) {
 			Block b = new GroundBlock(handler, new Vector(Utils.parseInt(blockData[i+0]), Utils.parseInt(blockData[i+1])), Utils.parseInt(blockData[i+2]), Utils.parseInt(blockData[i+3]));
 			blockManager.addBlock(b);
+		}
+		String[] entityData = parts[2].split("\\s+");
+		for(int i = 1;i < entityData.length-1;i+=2) {
+			StaticEntity e = new Grass(handler, new Vector(Utils.parseInt(entityData[i+0]), Utils.parseInt(entityData[i+1])));
+			staticManager.addEntity(e);
 		}
 	}
 

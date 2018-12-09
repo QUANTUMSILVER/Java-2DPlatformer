@@ -43,9 +43,9 @@ public class Player extends Creature{
 	@Override
 	public void render(Graphics g) {
 		if(facing > 0) {//facing right
-			g.drawImage(Assets.playerRight, (int) (pos.x - handler.getCamera().getXoff()), (int) (pos.y - handler.getCamera().getYoff()), PLAYER_WIDTH, PLAYER_HEIGHT, null);
+			g.drawImage(Assets.playerRight, (int) Math.floor(pos.x - handler.getCamera().getXoff()), (int) Math.floor(pos.y - handler.getCamera().getYoff()), PLAYER_WIDTH, PLAYER_HEIGHT, null);
 		}else {//facing left
-			g.drawImage(Assets.playerLeft, (int) (pos.x - handler.getCamera().getXoff()), (int) (pos.y - handler.getCamera().getYoff()), PLAYER_WIDTH, PLAYER_HEIGHT, null);
+			g.drawImage(Assets.playerLeft, (int) Math.floor(pos.x - handler.getCamera().getXoff()), (int) Math.floor(pos.y - handler.getCamera().getYoff()), PLAYER_WIDTH, PLAYER_HEIGHT, null);
 		}
 	}
 	
@@ -124,7 +124,6 @@ public class Player extends Creature{
 				pos.x = currentCollision.x+currentCollision.width;
 			}
 			vel.x = 0;
-			bounds.x = (int) pos.x;
 		}else {
 			pos.x += vel.x;
 		}
@@ -146,10 +145,10 @@ public class Player extends Creature{
 				onGround = true;
 				pos.y = currentCollision.y-PLAYER_HEIGHT;
 			}else if(vel.y < 0){
+				onGround = false;
 				pos.y = currentCollision.y+currentCollision.height;
 			}
 			vel.y = 0;
-			bounds.y = (int) pos.y;
 		}else {
 			if(vel.y > 0)
 				onGround = false;

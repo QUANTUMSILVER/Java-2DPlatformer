@@ -29,8 +29,15 @@ public class Camera {
 		
 		float setX = e.getPos().x-handler.getWidth()/2 + e.getWidth()/2;
 		float setY = e.getPos().y-handler.getHeight()/2 + e.getHeight()/2;
-		move((setX-off.x)/cameraSpring,(setY-off.y)/cameraSpring);
-		
+		if((setX-off.x)/cameraSpring < 0.01) {
+			move((setX-off.x),0);
+		}else if((setX-off.x)/cameraSpring >= 0.01) {
+			move((setX-off.x)/cameraSpring,0);
+		}if((setY-off.y)/cameraSpring < 0.01) {
+			move(0,(setY-off.y));
+		}else if((setY-off.y)/cameraSpring >= 0.01) {
+			move(0,(setY-off.y)/cameraSpring);
+		}
 	}
 	
 	public void move(float x, float y) {
