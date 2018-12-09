@@ -60,6 +60,16 @@ public class World {
 		player = new Player(handler, new Vector(Utils.parseInt(worldData[0]), Utils.parseInt(worldData[1])));
 		width = Utils.parseInt(worldData[2]);
 		height = Utils.parseInt(worldData[3]);
+		
+		Block leftBorder = new GroundBlock(handler, new Vector(-handler.getWidth()/2,-handler.getHeight()/2), handler.getWidth()/2, handler.getHeight()+height);
+		blockManager.addBlock(leftBorder);
+		Block rightBorder = new GroundBlock(handler, new Vector(width,-handler.getHeight()/2), handler.getWidth()/2, handler.getHeight()+height);
+		blockManager.addBlock(rightBorder);
+		Block topBorder = new GroundBlock(handler, new Vector(0,-handler.getHeight()/2), width, handler.getHeight()/2);
+		blockManager.addBlock(topBorder);
+		Block bottomBorder = new GroundBlock(handler, new Vector(0,height), width, handler.getHeight()/2);
+		blockManager.addBlock(bottomBorder);
+		
 		String[] blockData = parts[1].split("\\s+");
 		for(int i = 1;i < blockData.length-1;i+=4) {
 			Block b = new GroundBlock(handler, new Vector(Utils.parseInt(blockData[i+0]), Utils.parseInt(blockData[i+1])), Utils.parseInt(blockData[i+2]), Utils.parseInt(blockData[i+3]));
