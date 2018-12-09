@@ -34,30 +34,23 @@ public class World {
 	
 	public void update() {
 		addParticle();
+		particleManager.update();
 		blockManager.update();
 		player.update();
-		particleManager.update();
 	}
 	
 	public void render(Graphics g) {
+		particleManager.render(g);
 		blockManager.render(g);
 		player.render(g);
-		particleManager.render(g);
 	}
 	
 	private void addParticle() {
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
-		particleManager.addParticle(new Particle(handler, Utils.Color(255, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 20, 1000));
+		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 10, 300));
+		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 10, 300));
+		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 10, 300));
+		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 10, 300));
+		
 	}
 	
 	public void loadWorld(String path){
@@ -96,6 +89,10 @@ public class World {
 
 	public void setBlocks(ArrayList<Block> blocks) {
 		this.blockManager.setBlocks(blocks);;
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 	
 }

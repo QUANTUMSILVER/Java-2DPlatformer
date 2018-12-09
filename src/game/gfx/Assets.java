@@ -8,7 +8,7 @@ public class Assets {
 	
 	public static void init() {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/players.png"));
-		System.out.println(sheet);
+		
 		playerRight = sheet.crop(0, 0, 64, 64);
 		playerLeft = sheet.crop(0, 64, 64, 64);
 		

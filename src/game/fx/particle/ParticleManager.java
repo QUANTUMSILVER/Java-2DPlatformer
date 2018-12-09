@@ -3,8 +3,6 @@ package game.fx.particle;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import game.Handler;
-
 public class ParticleManager {
 	
 	private ArrayList<Particle>particlesToRemove;
