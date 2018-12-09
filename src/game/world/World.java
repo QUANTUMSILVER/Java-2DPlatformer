@@ -8,7 +8,7 @@ import game.block.Block;
 import game.block.BlockManager;
 import game.block.GroundBlock;
 import game.entity.creature.Player;
-import game.fx.particle.Particle;
+import game.fx.particle.ParticleGlow;
 import game.fx.particle.ParticleManager;
 import game.utils.Utils;
 import lib.Vector;
@@ -47,10 +47,10 @@ public class World {
 	}
 	
 	private void addParticle() {
-		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), 10, 300));
-		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), 10, 300));
-		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), 10, 300));
-		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), 10, 300));
+		particleManager.addParticle(new ParticleGlow(handler, Utils.Color(0, 0, 0, 5), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), (int)(Math.random()*3+6), 300));
+		particleManager.addParticle(new ParticleGlow(handler, Utils.Color(0, 0, 0, 5), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), (int)(Math.random()*3+6), 300));
+		particleManager.addParticle(new ParticleGlow(handler, Utils.Color(0, 0, 0, 5), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), (int)(Math.random()*3+6), 300));
+		particleManager.addParticle(new ParticleGlow(handler, Utils.Color(0, 0, 0, 5), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), (int)(Math.random()*3+6), 300));
 	}
 	
 	public void loadWorld(String path){
