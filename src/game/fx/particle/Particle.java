@@ -13,14 +13,14 @@ public class Particle {
 	
 	private Vector pos, vel;
 	private float max_speed = 2;
-	private float max_force = 0.01f;
+	private float max_force = 0.001f;
 	
 	private float radius;
 	private int life, peak;
 	private Handler handler;
 	
-	public Particle(Handler handler, Color c, float x, float y,  float radius, int life) {
-		pos = new Vector(x, y);
+	public Particle(Handler handler, Color c, Vector pos,  float radius, int life) {
+		this.pos = pos;
 		vel = new Vector((float) ((Math.random()-0.5)*2), (float) ((Math.random()-0.5)*2));
 		this.handler = handler;
 		this.c = c;
@@ -66,7 +66,7 @@ public class Particle {
 	}
 	
 	private void updateVel() {
-		Vector desired = getDesiredVel(new Vector(handler.getWorld().getPlayer().getX(), handler.getWorld().getPlayer().getY()));
+		Vector desired = getDesiredVel(new Vector(handler.getWorld().getPlayer().getPos().x, handler.getWorld().getPlayer().getPos().y));
 		desired.scale(-1);
 		Vector steering = getSteering(desired);
 		steering.add(vel);

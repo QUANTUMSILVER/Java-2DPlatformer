@@ -4,20 +4,22 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import game.Handler;
+import lib.Vector;
 
 public abstract class Block {
 	
-	protected int x, y, width, height;
+	protected int width, height;
+	protected Vector pos;
+	
 	protected Rectangle bounds;
 	protected Handler handler;
 	
-	public Block(Handler handler, int x, int y, int width, int height) {
-		this.x = x;
-		this.y = y;
+	public Block(Handler handler, Vector pos, int width, int height) {
+		this.pos = pos;
 		this.width = width;
 		this.height = height;
 		this.handler = handler;
-		bounds = new Rectangle(x, y, width, height);
+		bounds = new Rectangle((int)pos.x, (int)pos.y, width, height);
 	}
 	
 	public abstract void update();

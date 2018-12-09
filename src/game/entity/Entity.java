@@ -4,19 +4,19 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import game.Handler;
+import lib.Vector;
 
 public abstract class Entity {
 	
 	protected int Width = 32, Height = 32;
 	
-	protected float x, y;
+	protected Vector pos;
 	protected Handler handler;
 	protected Rectangle bounds;
 	
-	public Entity(Handler handler, float x, float y) {
+	public Entity(Handler handler, Vector pos) {
 		this.handler = handler;
-		this.x = x;
-		this.y = y;
+		this.pos = pos;
 		bounds = new Rectangle(0, 0, Width, Height);
 	}
 	
@@ -40,20 +40,12 @@ public abstract class Entity {
 		Height = height;
 	}
 
-	public float getX() {
-		return x;
+	public Vector getPos() {
+		return pos;
 	}
 
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
+	public void setPos(Vector pos) {
+		this.pos = pos;
 	}
 	
 }

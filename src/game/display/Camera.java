@@ -2,6 +2,7 @@ package game.display;
 
 import game.Handler;
 import game.entity.Entity;
+import lib.Vector;
 
 public class Camera {
 	
@@ -9,49 +10,48 @@ public class Camera {
 	
 	private Handler handler;
 	
-	private float xoff, yoff;
+	private Vector off;
 	
-	public Camera(Handler handler, int x, int y) {
+	public Camera(Handler handler, Vector pos) {
 		this.handler = handler;
-		this.xoff = x;
-		this.yoff = y;
+		this.off = pos;
 	}
 	
 	public void focusPosition(float x, float y) {
 	
 		float setX = x-handler.getWidth()/2;
 		float setY = y-handler.getHeight()/2;
-		move((setX-xoff)/cameraSpring, (setY-yoff)/cameraSpring);
+		move((setX-off.x)/cameraSpring, (setY-off.y)/cameraSpring);
 		
 	}
 	
 	public void focusEntity(Entity e) {
 		
-		float setX = e.getX()-handler.getWidth()/2 + e.getWidth()/2;
-		float setY = e.getY()-handler.getHeight()/2 + e.getHeight()/2;
-		move((setX-xoff)/cameraSpring,(setY-yoff)/cameraSpring);
+		float setX = e.getPos().x-handler.getWidth()/2 + e.getWidth()/2;
+		float setY = e.getPos().y-handler.getHeight()/2 + e.getHeight()/2;
+		move((setX-off.x)/cameraSpring,(setY-off.y)/cameraSpring);
 		
 	}
 	
 	public void move(float x, float y) {
-		xoff += x;
-		yoff += y;
+		off.x += x;
+		off.y += y;
 	}
 	
 	public float getXoff() {
-		return xoff;
+		return off.x;
 	}
 
 	public void setXoff(float xoff) {
-		this.xoff = xoff;
+		this.off.x = xoff;
 	}
 
 	public float getYoff() {
-		return yoff;
+		return off.y;
 	}
 
 	public void setYoff(float yoff) {
-		this.yoff = yoff;
+		this.off.y = yoff;
 	}
 	
 	public void setCameraSpring(float cameraSpring) {

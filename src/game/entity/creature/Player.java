@@ -9,6 +9,7 @@ import game.Handler;
 import game.block.Block;
 import game.gfx.Assets;
 import game.utils.Utils;
+import lib.Vector;
 
 public class Player extends Creature{
 	
@@ -21,17 +22,18 @@ public class Player extends Creature{
 	private int facing = 0;
 	
 	private boolean moving = false, onGround = false;
-	private float velx, vely;
+	private Vector vel;
 	
-	public Player(Handler handler, int x, int y) {
-		super(handler, x, y);
+	public Player(Handler handler, Vector pos) {
+		super(handler, pos);
+		vel = new Vector((float) (Math.random()-0.5f)*2, (float) (Math.random()-0.5f)*2);
 		bounds.width = PLAYER_WIDTH;
 		bounds.height = PLAYER_HEIGHT;
 	}
 
 	@Override
 	public void update() {
-		bounds.x = (int) x;
+		bounds.x = (int) pos.x;
 		keyMove();
 		applyGravity();
 		move();
@@ -41,16 +43,16 @@ public class Player extends Creature{
 	@Override
 	public void render(Graphics g) {
 		if(facing > 0) {//facing right
-			g.drawImage(Assets.playerRight, (int) (x - handler.getCamera().getXoff()), (int) (y - handler.getCamera().getYoff()), PLAYER_WIDTH, PLAYER_HEIGHT, null);
+			g.drawImage(Assets.playerRight, (int) (pos.x - handler.getCamera().getXoff()), (int) (pos.y - handler.getCamera().getYoff()), PLAYER_WIDTH, PLAYER_HEIGHT, null);
 		}else {//facing left
-			g.drawImage(Assets.playerLeft, (int) (x - handler.getCamera().getXoff()), (int) (y - handler.getCamera().getYoff()), PLAYER_WIDTH, PLAYER_HEIGHT, null);
+			g.drawImage(Assets.playerLeft, (int) (pos.x - handler.getCamera().getXoff()), (int) (pos.y - handler.getCamera().getYoff()), PLAYER_WIDTH, PLAYER_HEIGHT, null);
 		}
 	}
 	
 	//movement
 	
 	private void applyGravity() {
-		vely += 0.4;
+		vel.y += 0.4;
 	}
 	
 	private void keyMove() {
@@ -64,7 +66,7 @@ public class Player extends Creature{
 		moving = false;
 		if(pressUp && onGround) {
 			onGround = false;
-			vely -= PLAYER_JUMP_FORCE;
+			vel.y -= PLAYER_JUMP_FORCE;
 			moving = true;
 		}if(pressLeft) {
 			facing = -1;
@@ -86,8 +88,8 @@ public class Player extends Creature{
 		
 		float mag = (float) Math.sqrt(tempx*tempx + tempy*tempy);
 		if(mag != 0) {
-			velx += tempx * Utils.truncate(mag, PLAYER_MAX_SPEED)/mag;
-			vely += tempy * Utils.truncate(mag, PLAYER_MAX_SPEED)/mag;
+			vel.x += tempx * Utils.truncate(mag, PLAYER_MAX_SPEED)/mag;
+			vel.y += tempy * Utils.truncate(mag, PLAYER_MAX_SPEED)/mag;
 		}
 	}
 	
@@ -95,13 +97,11 @@ public class Player extends Creature{
 		moveX();
 		moveY();
 		if(onGround && !moving) {
-			velx *= 0.7;
-			vely *= 0.7;
+			vel.scale(0.7f);
 		}else if(onGround) {
-			float mag = (float) Math.sqrt(velx*velx + vely*vely);
+			float mag = (float) Math.sqrt(vel.x*vel.x + vel.y*vel.y);
 			if(mag != 0) {
-				velx = velx * Utils.truncate(mag, PLAYER_MAX_SPEED)/mag;
-				vely = vely * Utils.truncate(mag, PLAYER_MAX_SPEED)/mag;
+				vel.scale(Utils.truncate(mag, PLAYER_MAX_SPEED)/mag);
 			}
 		}
 	}
@@ -112,21 +112,21 @@ public class Player extends Creature{
 		Rectangle currentCollision = null;
 		for(Block b:blocks) {
 			Rectangle bBound = b.getBounds();
-			if(Utils.isCollided((int)(x + velx), (int)y, bounds.width, bounds.height, bBound.x, bBound.y, bBound.width, bBound.height)) {
+			if(Utils.isCollided((int)(pos.x + vel.x), (int)pos.y, bounds.width, bounds.height, bBound.x, bBound.y, bBound.width, bBound.height)) {
 				collided = true;
 				currentCollision = bBound;
 			}
 		}
 		if(collided) {
-			if(velx > 0) {
-				x = currentCollision.x-PLAYER_WIDTH;
-			}else if(velx < 0){
-				x = currentCollision.x+currentCollision.width;
+			if(vel.x > 0) {
+				pos.x = currentCollision.x-PLAYER_WIDTH;
+			}else if(vel.x < 0){
+				pos.x = currentCollision.x+currentCollision.width;
 			}
-			velx = 0;
-			bounds.x = (int) x;
+			vel.x = 0;
+			bounds.x = (int) pos.x;
 		}else {
-			x += velx;
+			pos.x += vel.x;
 		}
 	}
 	
@@ -136,24 +136,24 @@ public class Player extends Creature{
 		boolean collided = false;
 		for(Block b:blocks) {
 			Rectangle bBound = b.getBounds();
-			if(Utils.isCollided((int)x, (int)(y + vely), bounds.width, bounds.height, bBound.x, bBound.y, bBound.width, bBound.height)) {
+			if(Utils.isCollided((int)pos.x, (int)(pos.y + vel.y), bounds.width, bounds.height, bBound.x, bBound.y, bBound.width, bBound.height)) {
 				collided = true;
 				currentCollision = bBound;
 			}
 		}
 		if(collided) {
-			if(vely > 0) {
+			if(vel.y > 0) {
 				onGround = true;
-				y = currentCollision.y-PLAYER_HEIGHT;
-			}else if(vely < 0){
-				y = currentCollision.y+currentCollision.height;
+				pos.y = currentCollision.y-PLAYER_HEIGHT;
+			}else if(vel.y < 0){
+				pos.y = currentCollision.y+currentCollision.height;
 			}
-			vely = 0;
-			bounds.y = (int) y;
+			vel.y = 0;
+			bounds.y = (int) pos.y;
 		}else {
-			if(vely > 0)
+			if(vel.y > 0)
 				onGround = false;
-			y += vely;
+			pos.y += vel.y;
 		}
 	}
 	

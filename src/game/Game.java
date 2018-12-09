@@ -9,6 +9,7 @@ import game.gfx.Assets;
 import game.input.KeyManager;
 import game.state.GameState;
 import game.state.State;
+import lib.Vector;
 
 public class Game implements Runnable{
 	
@@ -47,7 +48,7 @@ public class Game implements Runnable{
 		Assets.init();
 		
 		handler = new Handler(this);
-		camera = new Camera(handler, 0, 0);
+		camera = new Camera(handler, new Vector(0,0));
 		
 		gameState = new GameState(handler);
 		State.setcState(gameState);

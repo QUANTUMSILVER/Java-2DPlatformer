@@ -11,6 +11,7 @@ import game.entity.creature.Player;
 import game.fx.particle.Particle;
 import game.fx.particle.ParticleManager;
 import game.utils.Utils;
+import lib.Vector;
 
 public class World {
 	
@@ -46,23 +47,22 @@ public class World {
 	}
 	
 	private void addParticle() {
-		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 10, 300));
-		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 10, 300));
-		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 10, 300));
-		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), (int) (Math.random()*width), (int) (Math.random()*height), 10, 300));
-		
+		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), 10, 300));
+		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), 10, 300));
+		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), 10, 300));
+		particleManager.addParticle(new Particle(handler, Utils.Color(0, 0, 0, 10), new Vector((float)(Math.random()*width), (float)(Math.random()*height)), 10, 300));
 	}
 	
 	public void loadWorld(String path){
 		String file = Utils.loadFileAsString(path);
 		String[] parts = file.split(":");
 		String[] worldData = parts[0].split("\\s+");
-		player = new Player(handler, Utils.parseInt(worldData[0]), Utils.parseInt(worldData[1]));
+		player = new Player(handler, new Vector(Utils.parseInt(worldData[0]), Utils.parseInt(worldData[1])));
 		width = Utils.parseInt(worldData[2]);
 		height = Utils.parseInt(worldData[3]);
 		String[] blockData = parts[1].split("\\s+");
 		for(int i = 1;i < blockData.length-1;i+=4) {
-			Block b = new GroundBlock(handler, Utils.parseInt(blockData[i+0]), Utils.parseInt(blockData[i+1]), Utils.parseInt(blockData[i+2]), Utils.parseInt(blockData[i+3]));
+			Block b = new GroundBlock(handler, new Vector(Utils.parseInt(blockData[i+0]), Utils.parseInt(blockData[i+1])), Utils.parseInt(blockData[i+2]), Utils.parseInt(blockData[i+3]));
 			blockManager.addBlock(b);
 		}
 	}
