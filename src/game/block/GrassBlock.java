@@ -6,9 +6,9 @@ import java.awt.Graphics;
 import game.Handler;
 import lib.Vector;
 
-public class GroundBlock extends Block{
+public class GrassBlock extends Block{
 
-	public GroundBlock(Handler handler, Vector pos, int width, int height) {
+	public GrassBlock(Handler handler, Vector pos, int width, int height) {
 		super(handler, pos, width, height);
 	}
 

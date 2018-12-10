@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import game.Handler;
 import game.block.Block;
 import game.block.BlockManager;
-import game.block.GroundBlock;
+import game.block.GrassBlock;
 import game.entity.creature.Player;
 import game.entity.staticEntity.plant.Grass;
 import game.entity.staticEntity.StaticEntity;
@@ -76,18 +76,18 @@ public class World {
 		
 		ppfpp = (float)Utils.parseInt(worldData[4])/(float)Utils.parseInt(worldData[5]);;
 		
-		Block leftBorder = new GroundBlock(handler, new Vector(-handler.getWidth()/2,-handler.getHeight()/2), handler.getWidth()/2, handler.getHeight()+height);
+		Block leftBorder = new GrassBlock(handler, new Vector(-handler.getWidth()/2,-handler.getHeight()/2), handler.getWidth()/2, handler.getHeight()+height);
 		blockManager.addBlock(leftBorder);
-		Block rightBorder = new GroundBlock(handler, new Vector(width,-handler.getHeight()/2), handler.getWidth()/2, handler.getHeight()+height);
+		Block rightBorder = new GrassBlock(handler, new Vector(width,-handler.getHeight()/2), handler.getWidth()/2, handler.getHeight()+height);
 		blockManager.addBlock(rightBorder);
-		Block topBorder = new GroundBlock(handler, new Vector(0,-handler.getHeight()/2), width, handler.getHeight()/2);
+		Block topBorder = new GrassBlock(handler, new Vector(0,-handler.getHeight()/2), width, handler.getHeight()/2);
 		blockManager.addBlock(topBorder);
-		Block bottomBorder = new GroundBlock(handler, new Vector(0,height), width, handler.getHeight()/2);
+		Block bottomBorder = new GrassBlock(handler, new Vector(0,height), width, handler.getHeight()/2);
 		blockManager.addBlock(bottomBorder);
 		
 		String[] blockData = parts[1].split("\\s+");
 		for(int i = 1;i < blockData.length-1;i+=4) {
-			Block b = new GroundBlock(handler, new Vector(Utils.parseInt(blockData[i+0]), Utils.parseInt(blockData[i+1])), Utils.parseInt(blockData[i+2]), Utils.parseInt(blockData[i+3]));
+			Block b = new GrassBlock(handler, new Vector(Utils.parseInt(blockData[i+0]), Utils.parseInt(blockData[i+1])), Utils.parseInt(blockData[i+2]), Utils.parseInt(blockData[i+3]));
 			blockManager.addBlock(b);
 		}
 		String[] entityData = parts[2].split("\\s+");

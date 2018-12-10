@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import game.Handler;
+import game.utils.Utils;
 import lib.Vector;
 
 public abstract class Block {
@@ -32,6 +33,10 @@ public abstract class Block {
 
 	public void setBounds(Rectangle bounds) {
 		this.bounds = bounds;
+	}
+	
+	protected boolean onScreen() {
+		return Utils.isCollided(bounds.x, bounds.y, bounds.width, bounds.height, (int) handler.getCamera().getXoff(), (int) handler.getCamera().getYoff(), handler.getWidth(), handler.getHeight());
 	}
 	
 }

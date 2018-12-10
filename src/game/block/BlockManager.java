@@ -1,6 +1,7 @@
 package game.block;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class BlockManager {
@@ -19,7 +20,9 @@ public class BlockManager {
 	
 	public void render(Graphics g) {
 		for(Block b:blocks) {
-			b.render(g);
+			if(b.onScreen()) {
+				b.render(g);
+			}
 		}
 	}
 	
