@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import game.Handler;
 import game.block.Block;
+import game.fx.particle.ParticleWalk;
 import game.gfx.Assets;
 import game.utils.Utils;
 import lib.Vector;
@@ -126,6 +127,9 @@ public class Player extends Creature{
 			vel.x = 0;
 		}else {
 			pos.x += vel.x;
+		}
+		if(onGround && Math.abs(vel.x) > 0.1) {
+			handler.getWorld().getParticleManager().addParticle(new ParticleWalk(handler, Utils.Color(27, 12, 40, 10), new Vector(pos.x+PLAYER_WIDTH/2, pos.y+PLAYER_HEIGHT), new Vector(vel.x*-0.5f, (float) -(Math.random()*2+0.5f)), 10, 100));
 		}
 	}
 	

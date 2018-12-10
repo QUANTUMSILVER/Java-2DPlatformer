@@ -124,5 +124,17 @@ public class World {
 	public Player getPlayer() {
 		return player;
 	}
+
+	public BlockManager getBlockManager() {
+		return blockManager;
+	}
+
+	public StaticManager getStaticManager() {
+		return staticManager;
+	}
+
+	public ParticleManager getParticleManager() {
+		return particleManager;
+	}
 	
 }
