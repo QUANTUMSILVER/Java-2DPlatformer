@@ -124,12 +124,11 @@ public class Player extends Creature{
 			}else if(vel.x < 0){
 				pos.x = currentCollision.x+currentCollision.width;
 			}
-			vel.x = 0;
 		}else {
 			pos.x += vel.x;
-		}
-		if(onGround && Math.abs(vel.x) > 0.1) {
-			handler.getWorld().getParticleManager().addParticle(new ParticleWalk(handler, Utils.Color(27, 12, 40, 10), new Vector(pos.x+PLAYER_WIDTH/2, pos.y+PLAYER_HEIGHT), new Vector(vel.x*-0.5f, (float) -(Math.random()*2+0.5f)), 10, 100));
+			if(onGround && Math.abs(vel.x) > 0.9 && Math.random() < 0.2) {
+				handler.getWorld().getParticleManager().addParticle(new ParticleWalk(handler, Utils.Color(27, 12, 40, 10), new Vector(pos.x+PLAYER_WIDTH/2, pos.y+PLAYER_HEIGHT), new Vector(vel.x*-0.5f, (float) -(Math.random()*2+0.5f)), 10, 50));
+			}
 		}
 	}
 	
@@ -147,7 +146,8 @@ public class Player extends Creature{
 		if(collided) {
 			if(vel.y > 0) {
 				onGround = true;
-				pos.y = currentCollision.y-PLAYER_HEIGHT;
+				pos.y = currentCollision.y-PLAYER_HEIGHT+maxForce;
+				//System.out.println(true);
 			}else if(vel.y < 0){
 				onGround = false;
 				pos.y = currentCollision.y+currentCollision.height;
@@ -158,6 +158,7 @@ public class Player extends Creature{
 				onGround = false;
 			pos.y += vel.y;
 		}
+		System.out.println(onGround);
 	}
 	
 }
