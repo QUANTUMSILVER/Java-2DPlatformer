@@ -21,7 +21,7 @@ public class Player extends Creature{
 	private int facing = 0;
 	private int jumpsCounter = 0;
 	
-	private boolean moving = false, onGround = false;
+	private boolean onGround = false;
 	private Vector vel;
 	
 	public Player(Handler handler, Vector pos) {
@@ -33,11 +33,11 @@ public class Player extends Creature{
 
 	@Override
 	public void update() {
+		handler.getCamera().focusEntity(this);
 		keyMove();
 		applyGravity();
 		move();
 		vel.x *= 0.9;
-		handler.getCamera().focusEntity(this);
 	}
 
 	@Override
@@ -71,7 +71,6 @@ public class Player extends Creature{
 		boolean pressUp = handler.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE),
 				pressLeft = handler.getKeyManager().isKeyPressed(KeyEvent.VK_A),
 				pressRight = handler.getKeyManager().isKeyPressed(KeyEvent.VK_D);
-		moving = false;
 		
 		if(pressUp) {
 			if(jumpsCounter > 0) {
