@@ -14,13 +14,12 @@ import lib.Vector;
 
 public class Player extends Creature{
 	
-	public static int PLAYER_WIDTH = 64, PLAYER_HEIGHT = 64;
-	public static float PLAYER_MAX_SPEED = 5f;
-	public static float PLAYER_JUMP_FORCE = 10;
-	
-	private float maxForce = 0.8f;
+	private int PLAYER_WIDTH = 64, PLAYER_HEIGHT = 64;
+	private float PLAYER_MAX_SPEED = 4, PLAYER_ACC = 1f;
+	private float PLAYER_JUMP_FORCE = 15;
 	
 	private int facing = 0;
+	private int jumpsCounter = 0;
 	
 	private boolean moving = false, onGround = false;
 	private Vector vel;
@@ -34,10 +33,10 @@ public class Player extends Creature{
 
 	@Override
 	public void update() {
-		bounds.x = (int) pos.x;
 		keyMove();
 		applyGravity();
 		move();
+		vel.x *= 0.9;
 		handler.getCamera().focusEntity(this);
 	}
 
@@ -50,7 +49,16 @@ public class Player extends Creature{
 		}
 	}
 	
-	//movement
+	/////////////////movement/////////////////
+	
+	private void move() {
+		moveX();
+		moveY();
+		float mag = (float) Math.sqrt(vel.x*vel.x + vel.y*vel.y);
+		Utils.truncate(vel.x, PLAYER_MAX_SPEED);
+	}
+	
+	/////////////////utils/////////////////
 	
 	private void applyGravity() {
 		vel.y += 0.4;
@@ -61,49 +69,27 @@ public class Player extends Creature{
 		float tempy = 0;
 		
 		boolean pressUp = handler.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE),
-				//pressDown = handler.getKeyManager().isKeyPressed(KeyEvent.VK_S),
 				pressLeft = handler.getKeyManager().isKeyPressed(KeyEvent.VK_A),
 				pressRight = handler.getKeyManager().isKeyPressed(KeyEvent.VK_D);
 		moving = false;
-		if(pressUp && onGround) {
-			onGround = false;
-			vel.y -= PLAYER_JUMP_FORCE;
-			moving = true;
+		
+		if(pressUp) {
+			if(jumpsCounter > 0) {
+				jumpsCounter--;
+				vel.y -= PLAYER_JUMP_FORCE;
+			}
 		}if(pressLeft) {
 			facing = -1;
-			if(onGround) {
-				tempx -= maxForce;
-			}else {
-				tempx -= maxForce/20;
-			}
-			moving = true;
-		}else if(pressRight) {
+			vel.x -= PLAYER_ACC;
+		}if(pressRight) {
 			facing = 1;
-			if(onGround) {
-				tempx += maxForce;
-			}else {
-				tempx += maxForce/20;
-			}
-			moving = true;
+			vel.x += PLAYER_ACC;
 		}
 		
 		float mag = (float) Math.sqrt(tempx*tempx + tempy*tempy);
 		if(mag != 0) {
 			vel.x += tempx * Utils.truncate(mag, PLAYER_MAX_SPEED)/mag;
 			vel.y += tempy * Utils.truncate(mag, PLAYER_MAX_SPEED)/mag;
-		}
-	}
-	
-	private void move() {
-		moveX();
-		moveY();
-		if(onGround && !moving) {
-			vel.scale(0.7f);
-		}else if(onGround) {
-			float mag = (float) Math.sqrt(vel.x*vel.x + vel.y*vel.y);
-			if(mag != 0) {
-				vel.scale(Utils.truncate(mag, PLAYER_MAX_SPEED)/mag);
-			}
 		}
 	}
 	
@@ -118,17 +104,15 @@ public class Player extends Creature{
 				currentCollision = bBound;
 			}
 		}
-		if(collided) {
-			if(vel.x > 0) {
-				pos.x = currentCollision.x-PLAYER_WIDTH;
-			}else if(vel.x < 0){
-				pos.x = currentCollision.x+currentCollision.width;
-			}
-		}else {
+		if(!collided) {
 			pos.x += vel.x;
-			if(onGround && Math.abs(vel.x) > 0.9 && Math.random() < 0.2) {
-				handler.getWorld().getParticleManager().addParticle(new ParticleWalk(handler, Utils.Color(27, 12, 40, 10), new Vector(pos.x+PLAYER_WIDTH/2, pos.y+PLAYER_HEIGHT), new Vector(vel.x*-0.5f, (float) -(Math.random()*2+0.5f)), 10, 50));
+		}else {
+			if(vel.x > 0) {
+				pos.x = currentCollision.x - PLAYER_WIDTH;
+			}else if(vel.x < 0){
+				pos.x = currentCollision.x + currentCollision.width;
 			}
+			vel.x = 0;
 		}
 	}
 	
@@ -143,22 +127,25 @@ public class Player extends Creature{
 				currentCollision = bBound;
 			}
 		}
-		if(collided) {
+		if(!collided) {
+			pos.y += vel.y;
+		}else {
 			if(vel.y > 0) {
+				pos.y = currentCollision.y - PLAYER_HEIGHT + 0.8f;
 				onGround = true;
-				pos.y = currentCollision.y-PLAYER_HEIGHT+maxForce;
-				//System.out.println(true);
+				jumpsCounter = 1;
 			}else if(vel.y < 0){
 				onGround = false;
-				pos.y = currentCollision.y+currentCollision.height;
+				pos.y = currentCollision.y + currentCollision.height;
 			}
 			vel.y = 0;
-		}else {
-			if(vel.y > 0)
-				onGround = false;
-			pos.y += vel.y;
 		}
-		System.out.println(onGround);
 	}
 	
+	private void addPlayerParticle(float chance) {
+		System.out.println(Math.abs(vel.x));
+		if(onGround && Math.abs(vel.x) > PLAYER_MAX_SPEED-0.1 && Math.random() < 0.2) {
+			handler.getWorld().getParticleManager().addParticle(new ParticleWalk(handler, Utils.Color(27, 12, 40, 10), new Vector(pos.x+PLAYER_WIDTH/2, pos.y+PLAYER_HEIGHT), new Vector(vel.x*-0.5f, (float) -(Math.random()*2+0.5f)), 10, 50));
+		}
+	}
 }
