@@ -16,17 +16,17 @@ public class Player extends Creature{
 	
 	private int PLAYER_WIDTH = 64, PLAYER_HEIGHT = 64;
 	private float PLAYER_MAX_SPEED = 4, PLAYER_ACC = 1f;
-	private float PLAYER_JUMP_FORCE = 15;
+	private float PLAYER_JUMP_FORCE = 10;
 	
 	private int facing = 0;
-	private int jumpsCounter = 0;
+	private int jumpsCounter = 0, maxJumps = 1;
 	
-	private boolean onGround = false;
+	private boolean onGround = false, released = false;;
 	private Vector vel;
 	
 	public Player(Handler handler, Vector pos) {
 		super(handler, pos);
-		vel = new Vector((float) (Math.random()-0.5f)*2, (float) (Math.random()-0.5f)*2);
+		vel = new Vector(0,0);
 		bounds.width = PLAYER_WIDTH;
 		bounds.height = PLAYER_HEIGHT;
 	}
@@ -54,7 +54,6 @@ public class Player extends Creature{
 	private void move() {
 		moveX();
 		moveY();
-		float mag = (float) Math.sqrt(vel.x*vel.x + vel.y*vel.y);
 		Utils.truncate(vel.x, PLAYER_MAX_SPEED);
 	}
 	
@@ -73,11 +72,17 @@ public class Player extends Creature{
 				pressRight = handler.getKeyManager().isKeyPressed(KeyEvent.VK_D);
 		
 		if(pressUp) {
-			if(jumpsCounter > 0) {
-				jumpsCounter--;
+			if((onGround || jumpsCounter > 0) && released == true) {
+				released = false;
+				if(!onGround)
+					jumpsCounter--;
+				vel.y = 0;
 				vel.y -= PLAYER_JUMP_FORCE;
 			}
-		}if(pressLeft) {
+		}else{
+			released = true;
+		}
+		if(pressLeft) {
 			facing = -1;
 			vel.x -= PLAYER_ACC;
 		}if(pressRight) {
@@ -128,11 +133,12 @@ public class Player extends Creature{
 		}
 		if(!collided) {
 			pos.y += vel.y;
+			onGround = false;
 		}else {
 			if(vel.y > 0) {
 				pos.y = currentCollision.y - PLAYER_HEIGHT + 0.8f;
 				onGround = true;
-				jumpsCounter = 1;
+				jumpsCounter = maxJumps;
 			}else if(vel.y < 0){
 				onGround = false;
 				pos.y = currentCollision.y + currentCollision.height;
@@ -141,10 +147,19 @@ public class Player extends Creature{
 		}
 	}
 	
-	private void addPlayerParticle(float chance) {
-		System.out.println(Math.abs(vel.x));
-		if(onGround && Math.abs(vel.x) > PLAYER_MAX_SPEED-0.1 && Math.random() < 0.2) {
-			handler.getWorld().getParticleManager().addParticle(new ParticleWalk(handler, Utils.Color(27, 12, 40, 10), new Vector(pos.x+PLAYER_WIDTH/2, pos.y+PLAYER_HEIGHT), new Vector(vel.x*-0.5f, (float) -(Math.random()*2+0.5f)), 10, 50));
-		}
+	@SuppressWarnings("unused")
+	private void addPlayerParticle(Vector pos, Vector vel) {
+		handler.getWorld().getParticleManager().addParticle(new ParticleWalk(handler, Utils.Color(27, 12, 40, 10), pos, vel, 10, 50));
 	}
+	
+	//getters and setters
+	
+	public int getMaxJumps() {
+		return maxJumps;
+	}
+
+	public void setMaxJumps(int maxJumps) {
+		this.maxJumps = maxJumps;
+	}
+	
 }
