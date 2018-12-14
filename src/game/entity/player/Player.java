@@ -1,4 +1,4 @@
-package game.entity.creature;
+package game.entity.player;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import game.Handler;
 import game.block.Block;
+import game.entity.creature.Creature;
 import game.fx.particle.ParticleWalk;
 import game.gfx.Assets;
 import game.utils.Utils;
