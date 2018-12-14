@@ -8,6 +8,14 @@ import java.io.IOException;
 import lib.Vector;
 
 public class Utils {
+	public static int sign(float n) {
+		if(n > 0)
+			return 1;
+		if(n < 0)
+			return -1;
+		return 0;
+	}
+	
 	public static float truncate(float n, float max) {
 		if(n > max)
 			return max;

@@ -16,14 +16,13 @@ import lib.Vector;
 public class Player extends Creature{
 	
 	private int PLAYER_WIDTH = 64, PLAYER_HEIGHT = 64;
-	private float PLAYER_MAX_SPEED = 4, PLAYER_ACC = 1f;
+	private float PLAYER_MAX_SPEED = 10, PLAYER_ACC = 1f;
 	private float PLAYER_JUMP_FORCE = 10;
 	
 	private int facing = 0;
 	private int jumpsCounter = 0, maxJumps = 1;
 	
-	private boolean onGround = false, released = false;;
-	private Vector vel;
+	private boolean onGround = false, released = false;
 	
 	public Player(Handler handler, Vector pos) {
 		super(handler, pos);
@@ -53,22 +52,16 @@ public class Player extends Creature{
 	/////////////////movement/////////////////
 	
 	private void move() {
+		vel.x = Utils.truncate(Math.abs(vel.x), PLAYER_MAX_SPEED)*Utils.sign(vel.x);
 		moveX();
 		moveY();
-		Utils.truncate(vel.x, PLAYER_MAX_SPEED);
 	}
 	
 	/////////////////utils/////////////////
 	
-	private void applyGravity() {
-		vel.y += 0.4;
-	}
-	
 	private void keyMove() {
-		float tempx = 0;
-		float tempy = 0;
 		
-		boolean pressUp = handler.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE),
+		boolean pressUp = handler.getKeyManager().isKeyPressed(KeyEvent.VK_W),
 				pressLeft = handler.getKeyManager().isKeyPressed(KeyEvent.VK_A),
 				pressRight = handler.getKeyManager().isKeyPressed(KeyEvent.VK_D);
 		
@@ -91,11 +84,6 @@ public class Player extends Creature{
 			vel.x += PLAYER_ACC;
 		}
 		
-		float mag = (float) Math.sqrt(tempx*tempx + tempy*tempy);
-		if(mag != 0) {
-			vel.x += tempx * Utils.truncate(mag, PLAYER_MAX_SPEED)/mag;
-			vel.y += tempy * Utils.truncate(mag, PLAYER_MAX_SPEED)/mag;
-		}
 	}
 	
 	private void moveX() {

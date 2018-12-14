@@ -1,9 +1,7 @@
-package game.entity.staticEntity.plant;
+package game.entity.staticEntity;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-
-import game.entity.staticEntity.StaticEntity;
 
 public class StaticManager {
 	
