@@ -1,4 +1,4 @@
-package game.entity.creature.enemy;
+package game.entity.creature;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import game.Handler;
 import game.block.Block;
-import game.entity.creature.Creature;
 import game.gfx.Assets;
 import game.utils.Utils;
 import lib.Vector;

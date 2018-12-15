@@ -9,7 +9,7 @@ import game.block.BlockManager;
 import game.block.GrassBlock;
 import game.entity.creature.Creature;
 import game.entity.creature.CreatureManager;
-import game.entity.creature.enemy.EnemyHornedBeetle;
+import game.entity.creature.EnemyHornedBeetle;
 import game.entity.player.Player;
 import game.entity.staticEntity.StaticEntity;
 import game.entity.staticEntity.StaticManager;
