@@ -9,7 +9,7 @@ import game.block.BlockManager;
 import game.block.GrassBlock;
 import game.entity.creature.Creature;
 import game.entity.creature.CreatureManager;
-import game.entity.creature.enemy.Enemy;
+import game.entity.creature.enemy.EnemyHornedBeetle;
 import game.entity.player.Player;
 import game.entity.staticEntity.StaticEntity;
 import game.entity.staticEntity.StaticManager;
@@ -94,7 +94,6 @@ public class World {
 		String[] blockData = parts[1].split("\\s+");
 		for(int i = 1;i < blockData.length-1;i+=5) {
 			Block b = null;
-			System.out.println(blockData[i+0]);
 			if(Utils.parseInt(blockData[i+0]) == 0)
 				b = new GrassBlock(handler, new Vector(Utils.parseInt(blockData[i+1]), Utils.parseInt(blockData[i+2])), Utils.parseInt(blockData[i+3]), Utils.parseInt(blockData[i+4]));
 			if(b != null)
@@ -112,7 +111,7 @@ public class World {
 			}else if(Utils.parseInt(entityData[i+0]) == 1) {//checks for creatures
 				Creature e = null;
 				if(Utils.parseInt(entityData[i+1]) == 0)
-					e = new Enemy(handler, new Vector(Utils.parseInt(entityData[i+2]), Utils.parseInt(entityData[i+3])));
+					e = new EnemyHornedBeetle(handler, new Vector(Utils.parseInt(entityData[i+2]), Utils.parseInt(entityData[i+3])));
 				if(e != null)
 					creatureManager.addEntity(e);
 			}

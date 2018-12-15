@@ -7,7 +7,7 @@ import lib.Vector;
 public abstract class Creature extends Entity{
 	
 	protected Vector vel;
-	protected int HEALTH;
+	protected int HEALTH = 1;
 	
 	public Creature(Handler handler, Vector pos) {
 		super(handler, pos);

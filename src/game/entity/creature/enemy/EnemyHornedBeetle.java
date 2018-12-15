@@ -11,18 +11,21 @@ import game.gfx.Assets;
 import game.utils.Utils;
 import lib.Vector;
 
-public class Enemy extends Creature{
+public class EnemyHornedBeetle extends Creature{
 
+	private String name = "Horned Beetle";
+	
 	private int ENEMY_WIDTH = 64, ENEMY_HEIGHT = 64;
 	private float ENEMY_MAX_SPEED = 5f, ENEMY_ACC = 0.5f;
 	
-	private float direction = 1;
+	private float direction = -1;
 	
 	private int facing = 0;
 	private boolean onGround = false;
 	
-	public Enemy(Handler handler, Vector pos) {
+	public EnemyHornedBeetle(Handler handler, Vector pos) {
 		super(handler, pos);
+		HEALTH = 3;
 		bounds.width = ENEMY_WIDTH;
 		bounds.height = ENEMY_HEIGHT;
 	}
@@ -32,7 +35,6 @@ public class Enemy extends Creature{
 		AIMove();
 		applyGravity();
 		move();
-		System.out.println(vel.x);
 	}
 
 	@Override
@@ -50,7 +52,6 @@ public class Enemy extends Creature{
 		}
 		if(onGround)
 			vel.x += direction*ENEMY_ACC;
-		System.out.println(onGround);
 		facing = (int) vel.x;
 	}
 	
@@ -110,6 +111,10 @@ public class Enemy extends Creature{
 	@Override
 	public boolean isEnemy() {
 		return true;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

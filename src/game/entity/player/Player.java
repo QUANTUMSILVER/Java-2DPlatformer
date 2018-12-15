@@ -16,8 +16,8 @@ import lib.Vector;
 public class Player extends Creature{
 	
 	private int PLAYER_WIDTH = 64, PLAYER_HEIGHT = 64;
-	private float PLAYER_MAX_SPEED = 10, PLAYER_ACC = 1f;
-	private float PLAYER_JUMP_FORCE = 10;
+	private float PLAYER_MAX_SPEED = 8, PLAYER_ACC = 1f;
+	private float PLAYER_JUMP_FORCE = 15;
 	
 	private int facing = 0;
 	private int jumpsCounter = 0, maxJumps = 1;
