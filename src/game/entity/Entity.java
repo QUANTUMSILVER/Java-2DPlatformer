@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import game.Handler;
 import lib.Vector;
 
-public abstract class Entity {
+public abstract class Entity{
 	
 	protected int Width = 32, Height = 32;
 	

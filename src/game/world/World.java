@@ -7,9 +7,11 @@ import game.Handler;
 import game.block.Block;
 import game.block.BlockManager;
 import game.block.GrassBlock;
+import game.entity.SpawnManager;
+import game.entity.SpawnPoint;
 import game.entity.creature.Creature;
 import game.entity.creature.CreatureManager;
-import game.entity.creature.EnemyHornedBeetle;
+import game.entity.creature.HornedBeetle;
 import game.entity.player.Player;
 import game.entity.staticEntity.StaticEntity;
 import game.entity.staticEntity.StaticManager;
@@ -26,6 +28,7 @@ public class World {
 	
 	private BlockManager blockManager;
 	private StaticManager staticManager;
+	private SpawnManager spawnManager;
 	private CreatureManager creatureManager;
 	private ParticleManager particleManager;
 	
@@ -36,6 +39,7 @@ public class World {
 		
 		blockManager = new BlockManager();
 		staticManager = new StaticManager();
+		spawnManager = new SpawnManager();
 		creatureManager = new CreatureManager();
 		particleManager = new ParticleManager();
 		
@@ -48,6 +52,7 @@ public class World {
 		addParticle();
 		particleManager.update();
 		staticManager.update();
+		spawnManager.update();
 		creatureManager.update();
 		blockManager.update();
 		player.update();
@@ -109,11 +114,7 @@ public class World {
 				if(e != null)
 					staticManager.addEntity(e);
 			}else if(Utils.parseInt(entityData[i+0]) == 1) {//checks for creatures
-				Creature e = null;
-				if(Utils.parseInt(entityData[i+1]) == 0)
-					e = new EnemyHornedBeetle(handler, new Vector(Utils.parseInt(entityData[i+2]), Utils.parseInt(entityData[i+3])));
-				if(e != null)
-					creatureManager.addEntity(e);
+				spawnManager.addSpawn(new SpawnPoint(handler, Utils.parseInt(entityData[i+1]), new Vector(Utils.parseInt(entityData[i+2]), Utils.parseInt(entityData[i+3])), 60*10));
 			}
 		}
 	}
@@ -156,6 +157,10 @@ public class World {
 
 	public ParticleManager getParticleManager() {
 		return particleManager;
+	}
+
+	public CreatureManager getCreatureManager() {
+		return creatureManager;
 	}
 	
 }

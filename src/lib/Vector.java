@@ -40,4 +40,8 @@ public class Vector {
 		return (float) Math.sqrt(x*x + y*y);
 	}
 	
+	public Vector copy() {
+		return new Vector(x, y);
+	}
+	
 }

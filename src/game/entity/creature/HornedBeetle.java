@@ -10,7 +10,7 @@ import game.gfx.Assets;
 import game.utils.Utils;
 import lib.Vector;
 
-public class EnemyHornedBeetle extends Creature{
+public class HornedBeetle extends Creature{
 
 	private String name = "Horned Beetle";
 	
@@ -22,7 +22,7 @@ public class EnemyHornedBeetle extends Creature{
 	private int facing = 0;
 	private boolean onGround = false;
 	
-	public EnemyHornedBeetle(Handler handler, Vector pos) {
+	public HornedBeetle(Handler handler, Vector pos) {
 		super(handler, pos);
 		HEALTH = 3;
 		bounds.width = ENEMY_WIDTH;
