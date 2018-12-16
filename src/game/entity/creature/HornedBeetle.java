@@ -11,8 +11,6 @@ import game.utils.Utils;
 import lib.Vector;
 
 public class HornedBeetle extends Creature{
-
-	private String name = "Horned Beetle";
 	
 	private int ENEMY_WIDTH = 64, ENEMY_HEIGHT = 64;
 	private float ENEMY_MAX_SPEED = 5f, ENEMY_ACC = 0.5f;
@@ -24,6 +22,7 @@ public class HornedBeetle extends Creature{
 	
 	public HornedBeetle(Handler handler, Vector pos) {
 		super(handler, pos);
+		name = "Horned Beetle";
 		HEALTH = 3;
 		bounds.width = ENEMY_WIDTH;
 		bounds.height = ENEMY_HEIGHT;
@@ -110,10 +109,6 @@ public class HornedBeetle extends Creature{
 	@Override
 	public boolean isEnemy() {
 		return true;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 }

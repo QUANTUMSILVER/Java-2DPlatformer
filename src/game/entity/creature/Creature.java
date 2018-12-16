@@ -6,6 +6,8 @@ import lib.Vector;
 
 public abstract class Creature extends Entity{
 	
+	protected String name = "";
+	
 	protected Vector vel;
 	protected int HEALTH = 1;
 	
@@ -19,8 +21,18 @@ public abstract class Creature extends Entity{
 		vel.y += 0.4;
 	}
 	
+	public boolean isDead() {
+		if(HEALTH <= 0)
+			return true;
+		return false;
+	}
+	
 	public boolean isEnemy() {
 		return false;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 }
